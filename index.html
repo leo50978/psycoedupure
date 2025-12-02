@@ -3,644 +3,696 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSYCHO-EDUCA PURE | Cabinet Psychologique & Psychoéducatif</title>
-    
-    <!-- CDN Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CDN Google Fonts (choix premium) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CDN Tailwind CSS -->
+    <title>IFEPT HAITI - Institution Professionnel des Jeunes de Delmas</title>
+    <!-- CDN TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- CDN Anime.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    
-    <!-- Configuration Tailwind personnalisée -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#5A67D8',
-                        'primary-dark': '#4C51BF',
-                        secondary: '#F7FAFC',
-                        accent: '#38B2AC',
-                        'text-dark': '#2D3748',
-                        'text-light': '#718096',
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'sans-serif'],
-                        'serif': ['Playfair Display', 'serif'],
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.6s ease-out',
-                        'fade-in': 'fadeIn 0.8s ease-out',
-                        'slide-in': 'slideIn 0.5s ease-out',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideIn: {
-                            '0%': { transform: 'translateX(-100%)' },
-                            '100%': { transform: 'translateX(0)' },
-                        },
-                    }
-                }
-            }
-        }
-    </script>
-    
+    <!-- CDN Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CDN Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Style personnalisé -->
     <style>
-        /* Styles CSS personnalisés pour compléter Tailwind */
-        body {
-            overflow-x: hidden;
+        * {
+            font-family: 'Inter', sans-serif;
         }
-        
-        /* Transition fluide pour le splash screen */
-        .splash-transition {
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
         }
-        
-        /* Cache le contenu principal pendant l'affichage du splash */
-        .main-content-hidden {
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu-hidden {
+            transform: translateY(-100%);
             opacity: 0;
-            visibility: hidden;
         }
-        
-        .main-content-visible {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-        
-        /* Animation des sections au scroll */
-        .section-animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        .section-visible {
-            opacity: 1;
+        .menu-visible {
             transform: translateY(0);
+            opacity: 1;
         }
-        
-        /* Overlay pour l'image d'héro */
-        .hero-overlay {
-            background: linear-gradient(to right, rgba(26, 32, 44, 0.85), rgba(26, 32, 44, 0.7));
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
         }
-        
-        /* Styles pour le menu burger */
-        .burger-line {
-            transition: all 0.3s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        
-        .burger-active .burger-line:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .burger-active .burger-line:nth-child(2) {
-            opacity: 0;
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        
-        .burger-active .burger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
+        .section-padding {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+        @media (max-width: 768px) {
+            .section-padding {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
         }
     </style>
 </head>
-<body class="font-sans text-text-dark bg-white">
-    
-    <!-- ==================== -->
-    <!-- SPLASH SCREEN (Full screen) -->
-    <!-- ==================== -->
-    <div id="splashScreen" class="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-primary to-accent text-white z-50 splash-transition">
-        <div class="text-center px-6 max-w-2xl">
-            <!-- Logo placeholder (style premium) -->
-            <div class="mb-8 animate-fade-in-up">
-                <div class="w-32 h-32 mx-auto rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border-2 border-white/30">
-                   <img src="logopsycho-removebg-preview.png" alt="Welcome" class="full-img">
-                </div>
-                <h1 class="text-3xl md:text-4xl font-bold mt-6 font-serif">PSYCHO-EDUCA PURE</h1>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Splash Screen (s'affiche au chargement) -->
+    <div id="splashScreen" class="splash-screen bg-gradient-to-br from-blue-800 to-blue-600">
+        <div class="text-center text-white px-6">
+            <!-- Logo placeholder (tailwind classes) -->
+            <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-white/20 flex items-center justify-center">
+              <img src="ifptlogo-removebg-preview.png" alt="Logo IFEPT HAITI" class="h-12 w-auto object-contain">
             </div>
-            
-            <!-- Texte d'introduction -->
-            <div class="mb-10 animate-fade-in-up" style="animation-delay: 0.2s;">
-                <p class="text-lg md:text-xl font-light leading-relaxed max-w-xl mx-auto">
-                    Un espace professionnel, sécurisant et chaleureux pour votre bien-être psychologique et psychoéducatif.
-                </p>
+            <h1 class="text-4xl font-bold mb-4">Institution de formation en éducation, psychologie et technologie</h1>
+            <p class="text-xl max-w-2xl mx-auto">Pour une éducation éclairée et une société équilibrée</p>
+            <div class="mt-12">
+                <div class="w-12 h-12 mx-auto border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <p class="mt-4 text-white/80">Chargement...</p>
             </div>
-            
-            <!-- Indicateur de chargement -->
-            <div class="w-48 h-1 bg-white/30 rounded-full overflow-hidden mx-auto animate-fade-in-up" style="animation-delay: 0.4s;">
-                <div id="splashProgress" class="h-full bg-white w-0"></div>
-            </div>
-            
-            <p class="mt-6 text-sm opacity-80 animate-fade-in-up" style="animation-delay: 0.6s;">
-                Chargement de votre expérience...
-            </p>
         </div>
     </div>
-    
-    <!-- ==================== -->
-    <!-- CONTENU PRINCIPAL (initialement caché) -->
-    <!-- ==================== -->
-    <div id="mainContent" class="main-content-hidden">
-        
-        <!-- ==================== -->
-        <!-- HEADER / NAVIGATION -->
-        <!-- ==================== -->
-        <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-            <div class="container mx-auto px-4 py-4">
-                <div class="flex justify-between items-center">
-                    <!-- Logo -->
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 r flex items-center justify-center mr-3">
-                             <img src="logopsycho-removebg-preview.png" alt="Welcome" class="full-img">
-                        </div>
-                        <div>
-                            <h1 class="text-xl font-bold text-primary font-serif">PSYCHO-EDUCA PURE</h1>
-                            <p class="text-xs text-text-light">Cabinet Psychologique & Psychoéducatif</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Menu Desktop -->
-                    <nav class="hidden md:flex items-center space-x-8">
-                        <a href="#accueil" class="text-text-dark font-medium hover:text-primary transition-colors duration-300">Accueil</a>
-                        <a href="#apropos" class="text-text-dark font-medium hover:text-primary transition-colors duration-300">À Propos</a>
-                        <a href="#services" class="text-text-dark font-medium hover:text-primary transition-colors duration-300">Services</a>
-                        <a href="#equipe" class="text-text-dark font-medium hover:text-primary transition-colors duration-300">Équipe</a>
-                        <a href="#contact" class="text-text-dark font-medium hover:text-primary transition-colors duration-300">Contact</a>
-                        <a href="#rdv" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-primary-dark transition-colors duration-300 shadow-md">Prendre RDV</a>
-                    </nav>
-                    
-                    <!-- Menu Burger (Mobile) -->
-                    <button id="burgerButton" class="md:hidden w-10 h-10 flex flex-col justify-center items-center space-y-1.5 focus:outline-none">
-                        <span class="burger-line w-6 h-0.5 bg-text-dark"></span>
-                        <span class="burger-line w-6 h-0.5 bg-text-dark"></span>
-                        <span class="burger-line w-6 h-0.5 bg-text-dark"></span>
-                    </button>
-                </div>
-                
-                <!-- Menu Mobile (caché par défaut) -->
-                <div id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-100 pt-4">
-                    <div class="flex flex-col space-y-4">
-                        <a href="#accueil" class="text-text-dark font-medium hover:text-primary transition-colors duration-300 py-2">Accueil</a>
-                        <a href="#apropos" class="text-text-dark font-medium hover:text-primary transition-colors duration-300 py-2">À Propos</a>
-                        <a href="#services" class="text-text-dark font-medium hover:text-primary transition-colors duration-300 py-2">Services</a>
-                        <a href="#equipe" class="text-text-dark font-medium hover:text-primary transition-colors duration-300 py-2">Équipe</a>
-                        <a href="#contact" class="text-text-dark font-medium hover:text-primary transition-colors duration-300 py-2">Contact</a>
-                        <a href="#rdv" class="bg-primary text-white px-5 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors duration-300 text-center shadow-md">Prendre RDV</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-        
-        <!-- ==================== -->
-        <!-- SECTION HERO -->
-        <!-- ==================== -->
-        <section id="accueil" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-            <!-- Image d'arrière-plan avec overlay -->
-            <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 hero-overlay z-10"></div>
-                <div class="w-full h-full bg-gradient-to-r from-primary to-accent opacity-80"></div>
-                <div class="absolute inset-0 flex items-center justify-center opacity-10">
-                   <img src="logopsycho-removebg-preview.png" alt="Welcome" class="full-img">
+
+    <!-- Site principal (initialement caché) -->
+    <div id="mainContent" class="opacity-0">
+        <!-- Header avec navigation responsive -->
+    <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
+    <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <div class="mr-3">
+        <img src="ifptlogo-removebg-preview.png" alt="Logo IFEPT HAITI" class="h-12 w-auto object-contain">
+    </div>
+                <div>
+                    <h1 class="text-xl font-bold text-blue-800">IFEPT HAITI</h1>
+                    <p class="text-xs text-gray-500">Plateforme d'enseignement en ligne</p>
                 </div>
             </div>
             
-            <!-- Contenu Hero -->
-            <div class="container mx-auto px-4 py-20 relative z-20 text-white">
-                <div class="max-w-3xl mx-auto text-center">
-                    <div class="mb-6">
-                        <span class="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-4">Bienvenue chez PSYCHO-EDUCA PURE</span>
-                    </div>
-                    
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-6 animate-fade-in-up">
-                        Votre espace de <span class="text-accent">bien-être</span> psychologique
-                    </h1>
-                    
-                    <p class="text-xl md:text-2xl font-light mb-10 text-gray-200 animate-fade-in-up" style="animation-delay: 0.2s;">
-                        Accompagnement psychologique, psychoéducatif et pédagogique pour enfants, adolescents, adultes et familles.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style="animation-delay: 0.4s;">
-                        <a href="#rdv" class="bg-white text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-xl transform hover:-translate-y-1">
-                            Prendre rendez-vous <i class="ml-2 fas fa-calendar-check"></i>
-                        </a>
-                        <a href="#services" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition-all duration-300">
-                            Découvrir nos services
-                        </a>
-                    </div>
-                </div>
+            <!-- Menu desktop -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#accueil" class="text-blue-700 font-medium hover:text-blue-900 transition">Accueil</a>
+                <a href="#formations" class="text-gray-700 font-medium hover:text-blue-700 transition">Formations</a>
+                <a href="#apropos" class="text-gray-700 font-medium hover:text-blue-700 transition">À propos</a>
+                <a href="#admission" class="text-gray-700 font-medium hover:text-blue-700 transition">Admission</a>
+                <a href="#contact" class="text-gray-700 font-medium hover:text-blue-700 transition">Contact</a>
             </div>
             
-            <!-- Indicateur de défilement -->
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <a href="#apropos" class="text-white text-2xl">
-                    <i class="fas fa-chevron-down"></i>
-                </a>
+            <!-- CTA Header -->
+            <div class="hidden md:block">
+                <a href="#admission" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition shadow-md">Postuler maintenant</a>
             </div>
-        </section>
+            
+            <!-- Bouton menu mobile -->
+            <button id="mobileMenuButton" class="md:hidden text-gray-700 text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
         
-        <!-- ==================== -->
-        <!-- SECTION À PROPOS -->
-        <!-- ==================== -->
-        <section id="apropos" class="py-20 bg-secondary section-animate">
+        <!-- Menu mobile (caché par défaut avec max-height: 0) -->
+        <div id="mobileMenu" class="md:hidden overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+            <div class="pt-4 pb-4 border-t border-gray-100 mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#accueil" class="text-blue-700 font-medium py-2">Accueil</a>
+                    <a href="#formations" class="text-gray-700 font-medium py-2">Formations</a>
+                    <a href="#apropos" class="text-gray-700 font-medium py-2">À propos</a>
+                    <a href="#admission" class="text-gray-700 font-medium py-2">Admission</a>
+                    <a href="#contact" class="text-gray-700 font-medium py-2">Contact</a>
+                    <a href="#admission" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium text-center mt-2">Postuler maintenant</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+        <!-- Hero Section -->
+        <section id="accueil" class="pt-24 pb-20 md:pt-32 md:pb-28 bg-gradient-to-b from-white to-blue-50">
             <div class="container mx-auto px-4">
-                <div class="flex flex-col lg:flex-row items-center">
-                    <!-- Image/Illustration -->
-                    <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
-                        <div class="relative">
-                            <div class="w-full h-96 bg-gradient-to-br from-primary to-accent rounded-2xl overflow-hidden shadow-2xl">
-                                <!-- Placeholder pour image (illustration psychologie) -->
-                                <div class="w-full h-full flex items-center justify-center text-white">
-                                   <div class="text-center">
-    <img src="hero.jpeg" alt="Welcome" style="width:auto; height:auto; max-width:100%; display:block; margin:0 auto;">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <span class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium mb-4">École de référence à Delmas</span>
+                        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Formez-vous pour l'avenir professionnel</h1>
+                        <p class="text-lg text-gray-600 mb-8">Institution de formation en éducation, psychologie et technologie forme une jeunesse compétente, disciplinée et engagée, apte à répondre aux exigences du monde professionnel et à contribuer activement au développement de la société.</p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#formations" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition text-center shadow-lg">Découvrir nos formations</a>
+                            <a href="#contact" class="bg-white text-blue-700 border border-blue-200 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition text-center shadow">Nous contacter</a>
+                        </div>
+                    </div>
+                   <div class="fade-in">
+    <!-- Version avec image principale -->
+    <div class="bg-white rounded-2xl overflow-hidden shadow-2xl">
+        <!-- Image en haut -->
+        <div class="relative h-64 md:h-80">
+            <!-- Image de fond -->
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('img11ifept.jpeg');"></div>
+            <!-- Overlay pour le texte -->
+            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-800/40 to-transparent"></div>
+            <!-- Texte superposé -->
+            <div class="relative h-full flex flex-col justify-end p-6">
+                <h3 class="text-2xl font-bold text-white mb-2">Formation d'excellence</h3>
+                <p class="text-white/90">Pour les jeunes de Delmas et ses environs</p>
+            </div>
+        </div>
+        
+        <!-- Statistiques en bas -->
+        <div class="p-6 bg-white">
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <p class="text-2xl font-bold text-blue-700">+500</p>
+                    <p class="text-sm text-gray-600">Étudiants formés</p>
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-blue-700">15+</p>
+                    <p class="text-sm text-gray-600">Programmes</p>
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-blue-700">98%</p>
+                    <p class="text-sm text-gray-600">Taux de réussite</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-                                </div>
-                            </div>
-                            <div class="absolute -bottom-6 -right-6 w-64 h-64 bg-accent/20 rounded-2xl -z-10"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Texte À Propos -->
-                    <div class="lg:w-1/2">
-                        <div class="mb-6">
-                            <span class="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">Notre Mission</span>
-                        </div>
-                        
-                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6">
-                            Un accompagnement <span class="text-primary">professionnel</span> et personnalisé
-                        </h2>
-                        
-                        <p class="text-lg text-text-light mb-6 leading-relaxed">
-                            <strong>PSYCHO-EDUCA PURE</strong> est un cabinet spécialisé dans l'accompagnement psychologique, psychoéducatif et pédagogique. Notre mission est d'offrir un espace professionnel, sécurisant et chaleureux où enfants, adolescents, adultes et familles peuvent recevoir un soutien adapté à leurs besoins émotionnels, comportementaux, scolaires ou relationnels.
-                        </p>
-                        
-                        <p class="text-lg text-text-light mb-8 leading-relaxed">
-                            Nous combinons approches psychologiques et méthodes éducatives pour aider les personnes à mieux comprendre leur fonctionnement, développer leurs compétences et retrouver un équilibre personnel et relationnel.
-                        </p>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-heart text-primary text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg mb-2">Approche bienveillante</h4>
-                                    <p class="text-text-light">Écoute active et non-jugement dans un cadre sécurisé.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-graduation-cap text-accent text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg mb-2">Méthodes éprouvées</h4>
-                                    <p class="text-text-light">Techniques validées par la recherche en psychologie et éducation.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <a href="#contact" class="inline-flex items-center text-primary font-bold text-lg hover:text-primary-dark transition-colors duration-300">
-                            Nous contacter <i class="ml-2 fas fa-arrow-right"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
-        
-        <!-- ==================== -->
-        <!-- SECTION SERVICES -->
-        <!-- ==================== -->
-        <section id="services" class="py-20 bg-white section-animate">
+
+        <!-- Formations Section -->
+        <section id="formations" class="section-padding bg-white">
             <div class="container mx-auto px-4">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">Nos Services</span>
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6">Accompagnement spécialisé pour tous les âges</h2>
-                    <p class="text-xl text-text-light">Nous offrons un soutien adapté à chaque étape de la vie, avec des approches personnalisées et efficaces.</p>
+                <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+                    <span class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium mb-4">Nos programmes</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Formations professionnelles d'excellence</h2>
+                    <p class="text-lg text-gray-600">Nous offrons une variété de programmes conçus pour répondre aux besoins du marché du travail actuel et futur.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Service 1 -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
-                        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                            <i class="fas fa-child text-primary text-2xl"></i>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Formation 1 -->
+                    <div class="bg-gray-50 rounded-xl p-6 card-hover border border-gray-100 fade-in">
+                        <div class="w-14 h-14 rounded-lg bg-blue-100 flex items-center justify-center mb-6">
+                            <i class="fas fa-laptop-code text-2xl text-blue-600"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Enfants & Adolescents</h3>
-                        <p class="text-text-light mb-6">
-                            Soutien psychologique pour les difficultés scolaires, comportementales, émotionnelles ou relationnelles. Évaluation et accompagnement adapté à chaque âge.
-                        </p>
-                        <ul class="space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent mr-3"></i>
-                                <span>Thérapie par le jeu</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent mr-3"></i>
-                                <span>Soutien à la parentalité</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent mr-3"></i>
-                                <span>Gestion des émotions</span>
-                            </li>
-                        </ul>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Informatique & Technologie</h3>
+                        <p class="text-gray-600 mb-6">Formation en développement web, maintenance informatique, réseaux et systèmes d'information pour les métiers du numérique.</p>
+                        <a href="#" class="text-blue-600 font-medium flex items-center">En savoir plus <i class="fas fa-arrow-right ml-2"></i></a>
                     </div>
                     
-                    <!-- Service 2 -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
-                        <div class="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
-                            <i class="fas fa-user text-accent text-2xl"></i>
+                    <!-- Formation 2 -->
+                    <div class="bg-gray-50 rounded-xl p-6 card-hover border border-gray-100 fade-in">
+                        <div class="w-14 h-14 rounded-lg bg-green-100 flex items-center justify-center mb-6">
+                            <i class="fas fa-business-time text-2xl text-green-600"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Adultes</h3>
-                        <p class="text-text-light mb-6">
-                            Accompagnement pour les défis personnels, professionnels, les transitions de vie, l'anxiété, la dépression ou la recherche d'épanouissement.
-                        </p>
-                        <ul class="space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-primary mr-3"></i>
-                                <span>Thérapie individuelle</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-primary mr-3"></i>
-                                <span>Gestion du stress</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-primary mr-3"></i>
-                                <span>Développement personnel</span>
-                            </li>
-                        </ul>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Gestion & Administration</h3>
+                        <p class="text-gray-600 mb-6">Programmes de comptabilité, gestion d'entreprise, secrétariat bureautique et management pour les organisations modernes.</p>
+                        <a href="#" class="text-blue-600 font-medium flex items-center">En savoir plus <i class="fas fa-arrow-right ml-2"></i></a>
                     </div>
                     
-                    <!-- Service 3 -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
-                        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                            <i class="fas fa-users text-primary text-2xl"></i>
+                    <!-- Formation 3 -->
+                    <div class="bg-gray-50 rounded-xl p-6 card-hover border border-gray-100 fade-in">
+                        <div class="w-14 h-14 rounded-lg bg-purple-100 flex items-center justify-center mb-6">
+                            <i class="fas fa-hands-helping text-2xl text-purple-600"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Familles & Couples</h3>
-                        <p class="text-text-light mb-6">
-                            Thérapie familiale et conjugale pour améliorer la communication, résoudre les conflits et renforcer les liens familiaux.
-                        </p>
-                        <ul class="space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent mr-3"></i>
-                                <span>Médiation familiale</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent mr-3"></i>
-                                <span>Communication non-violente</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent mr-3"></i>
-                                <span>Résolution de conflits</span>
-                            </li>
-                        </ul>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Services & Relations</h3>
+                        <p class="text-gray-600 mb-6">Formation en tourisme, hôtellerie, relations client et communication pour exceller dans les métiers de service.</p>
+                        <a href="#" class="text-blue-600 font-medium flex items-center">En savoir plus <i class="fas fa-arrow-right ml-2"></i></a>
                     </div>
                 </div>
                 
-                <div class="text-center mt-16">
-                    <a href="#rdv" class="bg-primary text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary-dark transition-all duration-300 shadow-lg inline-flex items-center">
-                        <i class="fas fa-calendar-alt mr-3"></i> Prendre rendez-vous pour une consultation
+                <div class="text-center mt-12 fade-in">
+                    <a href="#admission" class="inline-flex items-center bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
+                        Voir toutes nos formations
+                        <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </section>
-        
-        <!-- ==================== -->
-        <!-- SECTION ÉQUIPE -->
-        <!-- ==================== -->
-        <section id="equipe" class="py-20 bg-secondary section-animate">
+
+        <!-- À propos Section -->
+        <section id="apropos" class="section-padding bg-gradient-to-b from-white to-blue-50">
             <div class="container mx-auto px-4">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">Notre Équipe</span>
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6">Des professionnels qualifiés et engagés</h2>
-                    <p class="text-xl text-text-light">Notre équipe pluridisciplinaire combine expertise psychologique et pédagogique pour un accompagnement complet.</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Membre 1 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
-                        <div class="h-48 bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-                            <i class="fas fa-user-md text-white text-7xl"></i>
-                        </div>
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold mb-2">Dr. Nephtalie Préval</h3>
-                            <p class="text-primary font-medium mb-4">Psychologue Clinicienne & Fondatrice</p>
-                            <p class="text-text-light mb-6">
-                                Spécialisée en psychologie clinique avec plus de 10 ans d'expérience dans l'accompagnement d'enfants, d'adolescents et d'adultes.
-                            </p>
-                            <div class="flex items-center text-sm text-text-light">
-                                <i class="fas fa-graduation-cap mr-2"></i>
-                                <span>PhD en Psychologie, Université d'État d'Haïti</span>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <span class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium mb-4">Notre mission</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Former la jeunesse de Delmas pour l'avenir</h2>
+                        <p class="text-lg text-gray-600 mb-6">Institution de formation en éducation, psychologie et technologie(IFEPT HAITI) est une école de référence en matière de formation professionnelle dans la ville de Delmas.</p>
+                        <p class="text-gray-600 mb-8">Notre mission est de former une jeunesse compétente, disciplinée, engagée, apte pour répondre aux exigences du monde professionnel et à contribuer activement au développement de la société.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Pédagogie innovante</h4>
+                                    <p class="text-gray-600">Méthodes d'enseignement adaptées aux réalités du marché du travail.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Encadrement personnalisé</h4>
+                                    <p class="text-gray-600">Suivi individuel de chaque étudiant pour garantir sa réussite.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Partenariats professionnels</h4>
+                                    <p class="text-gray-600">Réseau d'entreprises partenaires pour stages et emplois.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Membre 2 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
-                        <div class="h-48 bg-gradient-to-r from-accent to-primary flex items-center justify-center">
-                            <i class="fas fa-user-graduate text-white text-7xl"></i>
-                        </div>
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold mb-2">Jean-Marc Laurent</h3>
-                            <p class="text-primary font-medium mb-4">Psychoéducateur & Pédagogue</p>
-                            <p class="text-text-light mb-6">
-                                Expert en interventions éducatives et comportementales, spécialisé dans les troubles d'apprentissage et les difficultés scolaires.
-                            </p>
-                            <div class="flex items-center text-sm text-text-light">
-                                <i class="fas fa-graduation-cap mr-2"></i>
-                                <span>Master en Psychoéducation, Université de Montréal</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Membre 3 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
-                        <div class="h-48 bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-                            <i class="fas fa-hands-helping text-white text-7xl"></i>
-                        </div>
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold mb-2">Sophie Moreau</h3>
-                            <p class="text-primary font-medium mb-4">Thérapeute Familiale & Conjugale</p>
-                            <p class="text-text-light mb-6">
-                                Spécialiste des relations familiales et conjugales, formée à la médiation et aux approches systémiques.
-                            </p>
-                            <div class="flex items-center text-sm text-text-light">
-                                <i class="fas fa-graduation-cap mr-2"></i>
-                                <span>Master en Thérapie Familiale, Université Paris 8</span>
-                            </div>
+                   <div class="fade-in">
+    <!-- Vidéo autoplay simple -->
+    <div class="rounded-2xl overflow-hidden shadow-2xl">
+        <div class="relative h-64 md:h-80 bg-black">
+            <!-- Vidéo -->
+            <video 
+                class="w-full h-full object-cover"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
+            >
+                <source src="videoifept.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo HTML5.
+            </video>
+            
+            <!-- Texte superposé -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end">
+                <div class="p-6 text-white w-full">
+                    <div class="flex items-center">
+                        <i class="fas fa-play-circle text-2xl mr-3"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Visite virtuelle du campus</h3>
+                            <p class="text-sm opacity-90 mt-1">Découvrez l'IFEPT HAITI en vidéo</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
         </section>
+<!-- Galerie Section -->
+<!-- Galerie Section -->
+<section id="galerie" class="section-padding bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
+            <span class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium mb-4">Nos réalisations</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Galerie des réalisations</h2>
+            <p class="text-lg text-gray-600">Découvrez les moments forts, les projets étudiants et la vie sur le campus de l'IFEPT HAITI.</p>
+        </div>
         
-        <!-- ==================== -->
-        <!-- SECTION CONTACT & RENDEZ-VOUS -->
-        <!-- ==================== -->
-        <section id="contact" class="py-20 bg-white section-animate">
+        <!-- Galerie principale (6 images visibles) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <!-- Image 1 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover fade-in">
+                <div class="h-64 w-full">
+                    <img src="galerie1.jpeg" alt="Cérémonie de remise des diplômes" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Cérémonie de remise des diplômes</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <!-- Image 2 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover fade-in">
+                <div class="h-64 w-full">
+                    <img src="galerie2.jpeg" alt="Laboratoires modernes" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Laboratoires modernes</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <!-- Image 3 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover fade-in">
+                <div class="h-64 w-full">
+                    <img src="galerie3.jpeg" alt="Vie étudiante active" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Vie étudiante active</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <!-- Image 4 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover fade-in">
+                <div class="h-64 w-full">
+                    <img src="galerie4.jpeg" alt="Salle informatique" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Salle informatique</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <!-- Image 5 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover fade-in">
+                <div class="h-64 w-full">
+                    <img src="galerie5.jpeg" alt="Cours en présentiel" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Cours en présentiel</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <!-- Image 6 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover fade-in">
+                <div class="h-64 w-full">
+                    <img src="galerie6.jpeg" alt="Récompenses et distinctions" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Récompenses et distinctions</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Galerie supplémentaire (cachée par défaut) -->
+        <div id="moreGallery" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            <!-- Images 7-12 -->
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover">
+                <div class="h-64 w-full">
+                    <img src="galerie7.jpeg" alt="Stages en entreprise" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Stages en entreprise</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover">
+                <div class="h-64 w-full">
+                    <img src="galerie8.jpeg" alt="Recherche appliquée" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Recherche appliquée</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover">
+                <div class="h-64 w-full">
+                    <img src="galerie9.jpeg" alt="Partenariats" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Partenariats</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover">
+                <div class="h-64 w-full">
+                    <img src="galerie10.jpeg" alt="Bibliothèque" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Bibliothèque moderne</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover">
+                <div class="h-64 w-full">
+                    <img src="galerie11.jpeg" alt="Ateliers pratiques" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Ateliers pratiques</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg card-hover">
+                <div class="h-64 w-full">
+                    <img src="galerie12.jpeg" alt="Campus extérieur" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                    <h3 class="text-white text-lg font-bold">Campus extérieur</h3>
+                </div>
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white font-medium bg-black/50 px-4 py-2 rounded-lg">Voir en grand</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bouton Voir plus / Voir moins -->
+        <div class="text-center fade-in">
+            <button id="toggleGallery" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition shadow-md inline-flex items-center">
+                Voir plus de réalisations
+                <i class="fas fa-chevron-down ml-2"></i>
+            </button>
+        </div>
+        
+        <!-- Modal pour afficher les images en grand -->
+        <div id="imageModal" class="fixed inset-0 bg-black/90 z-[100] hidden items-center justify-center p-4">
+            <div class="relative max-w-4xl w-full">
+                <button id="closeModal" class="absolute -top-12 right-0 text-white text-3xl hover:text-blue-300 z-10">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div id="modalImage" class="rounded-lg overflow-hidden bg-black">
+                    <img id="modalImg" src="" alt="" class="w-full max-h-[70vh] object-contain">
+                </div>
+                <div class="flex justify-between items-center mt-4 text-white">
+                    <button id="prevImage" class="flex items-center text-white hover:text-blue-300 px-4 py-2 rounded-lg hover:bg-white/10 transition">
+                        <i class="fas fa-chevron-left mr-2"></i> Précédent
+                    </button>
+                    <p id="imageTitle" class="text-lg font-medium text-center px-4">Titre de l'image</p>
+                    <button id="nextImage" class="flex items-center text-white hover:text-blue-300 px-4 py-2 rounded-lg hover:bg-white/10 transition">
+                        Suivant <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Admission Section -->
+        <section id="admission" class="section-padding bg-white">
             <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Informations de contact -->
-                    <div>
-                        <div class="mb-10">
-                            <span class="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">Contactez-nous</span>
-                            <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6">Prendre contact avec notre cabinet</h2>
-                            <p class="text-xl text-text-light">Nous sommes à votre écoute pour répondre à vos questions et vous accompagner dans votre démarche.</p>
+                <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+                    <span class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium mb-4">Rejoignez-nous</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Procédure d'admission</h2>
+                    <p class="text-lg text-gray-600">Intégrez l'IFEPT HAITI et préparez votre avenir professionnel avec notre équipe pédagogique expérimentée.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <!-- Étape 1 -->
+                    <div class="text-center fade-in">
+                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6 relative">
+                            <span class="text-2xl font-bold text-blue-700">1</span>
                         </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Dépôt de dossier</h3>
+                        <p class="text-gray-600">Remplissez le formulaire en ligne ou déposez votre dossier physique à l'Institution.</p>
+                    </div>
+                    
+                    <!-- Étape 2 -->
+                    <div class="text-center fade-in">
+                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6 relative">
+                            <span class="text-2xl font-bold text-blue-700">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Entretien & Tests</h3>
+                        <p class="text-gray-600">Passez un entretien avec notre équipe pédagogique et les tests d'aptitude requis.</p>
+                    </div>
+                    
+                    <!-- Étape 3 -->
+                    <div class="text-center fade-in">
+                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6 relative">
+                            <span class="text-2xl font-bold text-blue-700">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Inscription définitive</h3>
+                        <p class="text-gray-600">Finalisez votre inscription et intégrez la promotion de l'année en cours.</p>
+                    </div>
+                </div>
+                
+                <!-- CTA Admission -->
+                <div class="max-w-2xl mx-auto bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 md:p-10 text-center fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Prêt à commencer votre formation ?</h3>
+                    <p class="text-gray-600 mb-8">Postulez dès maintenant pour l'année académique 2024-2025. Les places sont limitées.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="mailto:ifep.educ@gmail.com" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition shadow-md">Postuler maintenant</a>
+                        <a href="#contact" class="bg-white text-blue-700 border border-blue-200 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition shadow">Plus d'informations</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+                    <span class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium mb-4">Contactez-nous</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Nous sommes à votre écoute</h2>
+                    <p class="text-lg text-gray-600">Pour toute question sur nos formations, l'admission ou pour planifier une visite de l'Institution.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Informations de contact -->
+                    <div class="fade-in">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-8">Informations de contact</h3>
                         
-                        <div class="space-y-8">
-                            <!-- Adresse -->
+                        <div class="space-y-6">
                             <div class="flex items-start">
-                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-5 flex-shrink-0">
-                                    <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+                                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Notre adresse</h4>
-                                    <p class="text-text-light">24, Puits Blain prolongée, Delmas 75<br>Port-au-Prince, Haïti</p>
+                                    <h4 class="font-bold text-gray-900">Adresse</h4>
+                                    <p class="text-gray-600">24, Puits Blain prolongée, Delmas 75</p>
                                 </div>
                             </div>
                             
-                            <!-- Téléphone -->
                             <div class="flex items-start">
-                                <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mr-5 flex-shrink-0">
-                                    <i class="fas fa-phone text-accent text-xl"></i>
+                                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone-alt text-green-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Téléphone</h4>
-                                    <p class="text-text-light">
-                                        <a href="tel:+50934459737" class="hover:text-primary transition-colors duration-300">+509 34 45 97 37</a>
-                                    </p>
-                                    <p class="text-sm text-text-light mt-1">Lun-Ven: 8h-18h | Sam: 9h-13h</p>
+                                    <h4 class="font-bold text-gray-900">Téléphone</h4>
+                                    <p class="text-gray-600">50934459737</p>
                                 </div>
                             </div>
                             
-                            <!-- Email -->
                             <div class="flex items-start">
-                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-5 flex-shrink-0">
-                                    <i class="fas fa-envelope text-primary text-xl"></i>
+                                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-purple-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Email</h4>
-                                    <p class="text-text-light">
-                                        <a href="mailto:npreval78@gmail.com" class="hover:text-primary transition-colors duration-300">npreval78@gmail.com</a>
-                                    </p>
+                                    <h4 class="font-bold text-gray-900">Email</h4>
+                                    <p class="text-gray-600">ifep.educ@gmail.com</p>
                                 </div>
                             </div>
                             
-                            <!-- Facebook -->
                             <div class="flex items-start">
-                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-5 flex-shrink-0">
-                                    <i class="fab fa-facebook-f text-blue-600 text-xl"></i>
+                                <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4">
+                                    <i class="fab fa-facebook-f text-red-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Facebook</h4>
-                                    <p class="text-text-light">
-                                        <a href="https://www.facebook.com/nephioue?mibextid=ZbWKwL" target="_blank" class="hover:text-primary transition-colors duration-300">/nephioue</a>
-                                    </p>
+                                    <h4 class="font-bold text-gray-900">Facebook</h4>
+                                    <p class="text-gray-600">facebook.com/IFEPT HAITI</p>
+                                    <a href="https://www.facebook.com/share/1FeUqFu3WX/" target="_blank" class="text-blue-600 text-sm font-medium mt-1 inline-block">Visitez notre page</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Formulaire de contact -->
-                    <div id="rdv" class="bg-secondary rounded-2xl p-8 shadow-lg">
-                        <h3 class="text-2xl font-bold mb-2">Demander un rendez-vous</h3>
-                        <p class="text-text-light mb-8">Remplissez ce formulaire et nous vous recontacterons dans les 24 heures pour confirmer votre rendez-vous.</p>
-                        
-                        <form id="contactForm" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="firstName" class="block text-sm font-medium mb-2">Prénom *</label>
-                                    <input type="text" id="firstName" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300">
+                    <div class="fade-in">
+                        <div class="bg-white rounded-xl p-6 md:p-8 shadow-lg">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h3>
+                            <form id="contactForm">
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="firstName" class="block text-gray-700 mb-2">Prénom</label>
+                                        <input type="text" id="firstName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+                                    </div>
+                                    <div>
+                                        <label for="lastName" class="block text-gray-700 mb-2">Nom</label>
+                                        <input type="text" id="lastName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+                                    </div>
                                 </div>
                                 
-                                <div>
-                                    <label for="lastName" class="block text-sm font-medium mb-2">Nom *</label>
-                                    <input type="text" id="lastName" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300">
+                                <div class="mb-4">
+                                    <label for="email" class="block text-gray-700 mb-2">Email</label>
+                                    <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
                                 </div>
-                            </div>
-                            
-                            <div>
-                                <label for="email" class="block text-sm font-medium mb-2">Email *</label>
-                                <input type="email" id="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300">
-                            </div>
-                            
-                            <div>
-                                <label for="phone" class="block text-sm font-medium mb-2">Téléphone *</label>
-                                <input type="tel" id="phone" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300">
-                            </div>
-                            
-                            <div>
-                                <label for="service" class="block text-sm font-medium mb-2">Service souhaité *</label>
-                                <select id="service" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300">
-                                    <option value="" disabled selected>Sélectionnez un service</option>
-                                    <option value="enfant">Enfants & Adolescents</option>
-                                    <option value="adulte">Adultes</option>
-                                    <option value="famille">Familles & Couples</option>
-                                    <option value="autre">Autre demande</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label for="message" class="block text-sm font-medium mb-2">Message (optionnel)</label>
-                                <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300" placeholder="Décrivez brièvement la raison de votre consultation..."></textarea>
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-primary text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary-dark transition-all duration-300 shadow-lg flex items-center justify-center">
-                                <i class="fas fa-paper-plane mr-3"></i> Envoyer la demande de rendez-vous
-                            </button>
-                            
-                            <p class="text-sm text-text-light text-center">
-                                En soumettant ce formulaire, vous acceptez que vos données soient traitées conformément à notre politique de confidentialité.
-                            </p>
-                        </form>
+                                
+                                <div class="mb-4">
+                                    <label for="subject" class="block text-gray-700 mb-2">Sujet</label>
+                                    <input type="text" id="subject" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label for="message" class="block text-gray-700 mb-2">Message</label>
+                                    <textarea id="message" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-medium hover:bg-blue-700 transition shadow-md">Envoyer le message</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <!-- ==================== -->
-        <!-- FOOTER -->
-        <!-- ==================== -->
-        <footer class="bg-text-dark text-white py-12">
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white pt-12 pb-8">
             <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <!-- Logo & Description -->
-                    <div class="md:col-span-1">
+                <div class="grid md:grid-cols-4 gap-8 mb-8">
+                    <!-- Logo et description -->
+                    <div class="md:col-span-2">
                         <div class="flex items-center mb-6">
-                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
-                                 <img src="logopsycho-removebg-preview.png" alt="Welcome" class="full-img">
-                            </div>
+                          <div class="mr-3">
+        <img src="ifptlogo-removebg-preview.png" alt="Logo IFEPT HAITI" class="h-12 w-auto object-contain">
+    </div>
                             <div>
-                                <h2 class="text-xl font-bold font-serif">PSYCHO-EDUCA PURE</h2>
+                                <h2 class="text-2xl font-bold">IFEPT HAITI</h2>
+                                <p class="text-sm text-gray-300">Plateforme d'enseignement en ligne</p>
                             </div>
                         </div>
-                        <p class="text-gray-300 mb-6">
-                            Cabinet spécialisé dans l'accompagnement psychologique, psychoéducatif et pédagogique pour tous les âges.
-                        </p>
+                        <p class="text-gray-400 mb-6">École de référence en matière de formation professionnelle dans la ville de Delmas. Nous formons une jeunesse compétente, disciplinée et engagée.</p>
                         <div class="flex space-x-4">
-                            <a href="https://www.facebook.com/nephioue?mibextid=ZbWKwL" target="_blank" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-primary flex items-center justify-center transition-colors duration-300">
+                            <a href="https://www.facebook.com/share/1BnXZxoXJr/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="mailto:npreval78@gmail.com" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-accent flex items-center justify-center transition-colors duration-300">
-                                <i class="fas fa-envelope"></i>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition">
+                                <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="tel:+50934459737" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-primary flex items-center justify-center transition-colors duration-300">
-                                <i class="fas fa-phone"></i>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-red-500 transition">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-700 transition">
+                                <i class="fab fa-linkedin-in"></i>
                             </a>
                         </div>
                     </div>
@@ -649,225 +701,182 @@
                     <div>
                         <h3 class="text-lg font-bold mb-6">Liens rapides</h3>
                         <ul class="space-y-3">
-                            <li><a href="#accueil" class="text-gray-300 hover:text-white transition-colors duration-300">Accueil</a></li>
-                            <li><a href="#apropos" class="text-gray-300 hover:text-white transition-colors duration-300">À Propos</a></li>
-                            <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-300">Services</a></li>
-                            <li><a href="#equipe" class="text-gray-300 hover:text-white transition-colors duration-300">Équipe</a></li>
-                            <li><a href="#contact" class="text-gray-300 hover:text-white transition-colors duration-300">Contact</a></li>
+                            <li><a href="#accueil" class="text-gray-400 hover:text-white transition">Accueil</a></li>
+                            <li><a href="#formations" class="text-gray-400 hover:text-white transition">Formations</a></li>
+                            <li><a href="#apropos" class="text-gray-400 hover:text-white transition">À propos</a></li>
+                            <li><a href="#admission" class="text-gray-400 hover:text-white transition">Admission</a></li>
+                            <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
                         </ul>
                     </div>
                     
-                    <!-- Services -->
+                    <!-- Contact footer -->
                     <div>
-                        <h3 class="text-lg font-bold mb-6">Nos Services</h3>
+                        <h3 class="text-lg font-bold mb-6">Contact</h3>
                         <ul class="space-y-3">
-                            <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-300">Enfants & Adolescents</a></li>
-                            <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-300">Adultes</a></li>
-                            <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-300">Familles & Couples</a></li>
-                            <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-300">Évaluation psychologique</a></li>
-                            <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-300">Soutien scolaire</a></li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Horaires -->
-                    <div>
-                        <h3 class="text-lg font-bold mb-6">Horaires d'ouverture</h3>
-                        <ul class="space-y-3 text-gray-300">
-                            <li class="flex justify-between">
-                                <span>Lundi - Vendredi</span>
-                                <span>8h - 18h</span>
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-blue-400 mt-1 mr-3"></i>
+                                <span class="text-gray-400">24, Puits Blain prolongée, Delmas 75</span>
                             </li>
-                            <li class="flex justify-between">
-                                <span>Samedi</span>
-                                <span>9h - 13h</span>
+                            <li class="flex items-start">
+                                <i class="fas fa-phone-alt text-blue-400 mt-1 mr-3"></i>
+                                <span class="text-gray-400">50934459737</span>
                             </li>
-                            <li class="flex justify-between">
-                                <span>Dimanche</span>
-                                <span>Fermé</span>
+                            <li class="flex items-start">
+                                <i class="fas fa-envelope text-blue-400 mt-1 mr-3"></i>
+                                <span class="text-gray-400">ifep.educ@gmail.com</span>
                             </li>
                         </ul>
-                        <div class="mt-8 p-4 bg-gray-800 rounded-lg">
-                            <p class="text-sm">
-                                <i class="fas fa-exclamation-circle text-accent mr-2"></i>
-                                Sur rendez-vous uniquement
-                            </p>
-                        </div>
                     </div>
                 </div>
                 
                 <!-- Copyright -->
-                <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
-                    <p>&copy; 2025 PSYCHO-EDUCA PURE. Tous droits réservés.</p>
-                    <p class="mt-2 text-sm">Cabinet spécialisé en accompagnement psychologique, psychoéducatif et pédagogique.</p>
+                <div class="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                    <p>&copy; 2026 Institution Professionnel des Jeunes de Delmas. Tous droits réservés.</p>
+                    <p class="mt-2">Site conçu avec <i class="fas fa-heart text-red-500"></i> pour la jeunesse de Delmas</p>
                 </div>
             </div>
         </footer>
     </div>
-    
-    <!-- ==================== -->
-    <!-- SCRIPTS JAVASCRIPT -->
-    <!-- ==================== -->
+
+    <!-- Scripts JavaScript -->
     <script>
+    // Code ultra simple pour le bouton "Voir plus"
+document.getElementById('toggleGallery').addEventListener('click', function() {
+    const moreGallery = document.getElementById('moreGallery');
+    const isHidden = moreGallery.classList.contains('hidden');
+    
+    if (isHidden) {
+        moreGallery.classList.remove('hidden');
+        this.innerHTML = 'Voir moins <i class="fas fa-chevron-up ml-2"></i>';
+    } else {
+        moreGallery.classList.add('hidden');
+        this.innerHTML = 'Voir plus de réalisations <i class="fas fa-chevron-down ml-2"></i>';
+    }
+});
+
         // Animation du splash screen avec Anime.js
         document.addEventListener('DOMContentLoaded', function() {
-            // Animation de la barre de progression du splash
-            const splashProgress = document.getElementById('splashProgress');
-            const splashScreen = document.getElementById('splashScreen');
-            const mainContent = document.getElementById('mainContent');
-            
-            // Barre de progression pendant 3 secondes
+            // Animation d'entrée du splash screen
             anime({
-                targets: splashProgress,
-                width: '100%',
-                duration: 3000,
-                easing: 'easeInOutQuad',
+                targets: '#splashScreen',
+                opacity: [0, 1],
+                duration: 800,
+                easing: 'easeInOutQuad'
             });
             
-            // Animation de disparition du splash après 3 secondes
-            setTimeout(() => {
+            // Animation de sortie du splash screen après 3 secondes
+            setTimeout(function() {
                 anime({
-                    targets: splashScreen,
+                    targets: '#splashScreen',
                     opacity: 0,
-                    scale: 0.95,
-                    duration: 800,
+                    scale: 0.9,
+                    duration: 1000,
                     easing: 'easeInOutQuad',
                     complete: function() {
-                        splashScreen.style.display = 'none';
-                        mainContent.classList.remove('main-content-hidden');
-                        mainContent.classList.add('main-content-visible');
+                        document.getElementById('splashScreen').style.display = 'none';
                         
-                        // Déclencher les animations des sections après l'affichage
-                        animateSectionsOnScroll();
+                        // Animation d'entrée du contenu principal
+                        anime({
+                            targets: '#mainContent',
+                            opacity: [0, 1],
+                            duration: 800,
+                            easing: 'easeInOutQuad'
+                        });
                     }
                 });
             }, 3000);
             
-            // Gestion du menu burger
-            const burgerButton = document.getElementById('burgerButton');
-            const mobileMenu = document.getElementById('mobileMenu');
+         // Gestion du menu mobile
+            // Gestion du menu mobile
+const mobileMenuButton = document.getElementById('mobileMenuButton');
+const mobileMenu = document.getElementById('mobileMenu');
+
+mobileMenuButton.addEventListener('click', function() {
+    if (mobileMenu.classList.contains('max-h-0')) {
+        // Ouvrir le menu
+        mobileMenu.classList.remove('max-h-0');
+        mobileMenu.classList.add('max-h-96');
+        mobileMenuButton.innerHTML = '<i class="fas fa-times"></i>';
+    } else {
+        // Fermer le menu
+        mobileMenu.classList.remove('max-h-96');
+        mobileMenu.classList.add('max-h-0');
+        mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+});
+
+// Fermer le menu mobile en cliquant sur un lien
+const mobileMenuLinks = document.querySelectorAll('#mobileMenu a');
+mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        mobileMenu.classList.remove('max-h-96');
+        mobileMenu.classList.add('max-h-0');
+        mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+});
+            // Animation des éléments au défilement
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
             
-            burgerButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-                burgerButton.classList.toggle('burger-active');
-                
-                // Animation du menu burger
-                if (!mobileMenu.classList.contains('hidden')) {
-                    anime({
-                        targets: mobileMenu,
-                        opacity: [0, 1],
-                        translateY: [-10, 0],
-                        duration: 300,
-                        easing: 'easeOutQuad'
-                    });
-                }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Observer les éléments à animer
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
             });
-            
-            // Fermer le menu mobile en cliquant sur un lien
-            const mobileLinks = document.querySelectorAll('#mobileMenu a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    burgerButton.classList.remove('burger-active');
-                });
-            });
-            
-            // Animation des sections au défilement
-            function animateSectionsOnScroll() {
-                const sections = document.querySelectorAll('.section-animate');
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('section-visible');
-                        }
-                    });
-                }, {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                });
-                
-                sections.forEach(section => {
-                    observer.observe(section);
-                });
-            }
             
             // Gestion du formulaire de contact
             const contactForm = document.getElementById('contactForm');
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Simulation d'envoi
-                const submitBtn = contactForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
+                // Simulation d'envoi de formulaire
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
                 
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i> Envoi en cours...';
-                submitBtn.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi en cours...';
+                submitButton.disabled = true;
                 
-                setTimeout(() => {
-                    // Message de succès
-                    const successMessage = document.createElement('div');
-                    successMessage.className = 'mt-6 p-4 bg-green-50 text-green-800 rounded-lg border border-green-200';
-                    successMessage.innerHTML = `
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-600 mr-3"></i>
-                            <div>
-                                <p class="font-bold">Demande envoyée avec succès!</p>
-                                <p class="text-sm">Nous vous recontacterons dans les 24 heures pour confirmer votre rendez-vous.</p>
-                            </div>
-                        </div>
-                    `;
-                    
-                    contactForm.appendChild(successMessage);
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
+                setTimeout(function() {
+                    submitButton.textContent = 'Message envoyé !';
+                    submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    submitButton.classList.add('bg-green-600');
                     
                     // Réinitialiser le formulaire
-                    setTimeout(() => {
-                        contactForm.reset();
-                        successMessage.remove();
-                    }, 5000);
+                    contactForm.reset();
+                    
+                    // Réinitialiser le bouton après 3 secondes
+                    setTimeout(function() {
+                        submitButton.textContent = originalText;
+                        submitButton.classList.remove('bg-green-600');
+                        submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        submitButton.disabled = false;
+                    }, 3000);
                 }, 1500);
             });
             
-            // Animation des cartes services au survol
-            const serviceCards = document.querySelectorAll('#services .shadow-lg');
-            serviceCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    anime({
-                        targets: this,
-                        scale: 1.02,
-                        duration: 300,
-                        easing: 'easeOutQuad'
-                    });
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    anime({
-                        targets: this,
-                        scale: 1,
-                        duration: 300,
-                        easing: 'easeOutQuad'
-                    });
-                });
-            });
-            
-            // Navigation fluide vers les ancres
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        e.preventDefault();
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
+            // Header qui change d'apparence au défilement
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('shadow-md', 'bg-white');
+                    header.classList.remove('bg-white/95');
+                } else {
+                    header.classList.remove('shadow-md', 'bg-white');
+                    header.classList.add('bg-white/95');
+                }
             });
         });
+        
     </script>
 </body>
 </html>
